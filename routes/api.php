@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\InformationController;
+use App\Http\Controllers\Api\KeywordController;
 use App\Http\Controllers\Api\QuizController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/informations', [InformationController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/quizzes', [QuizController::class, 'index']);
+Route::get('/keywords', [KeywordController::class, 'index']);
