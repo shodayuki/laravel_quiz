@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ApiAuthTest extends TestCase
@@ -63,5 +65,20 @@ class ApiAuthTest extends TestCase
             'email' => 'testUser@example.com',
             'api_token' => null
         ]);
+    }
+
+    public function test_auth_user()
+    {
+        $token = Str::random(80);
+
+        $user = User::factory()->create([
+            'api_token' => hash('sha256', $token),
+        ]);
+
+        $response = $this->json('GET', "/api/user?api_token={$token}");
+
+        $responseArray = $response->json();
+
+        $this->assertEquals($user->toArray(), $responseArray);
     }
 }
