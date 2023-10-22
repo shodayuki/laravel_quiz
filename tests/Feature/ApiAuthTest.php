@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class ApiAuthTest extends TestCase
@@ -43,5 +44,24 @@ class ApiAuthTest extends TestCase
             ->assertJsonStructure([
                 'token',
             ]);
+
+        Auth::logout();
+
+        $token = $response->decodeResponseJson()['token'];
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])->json('POST', '/api/logout');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'logout'
+            ]);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'testUser@example.com',
+            'api_token' => null
+        ]);
     }
 }

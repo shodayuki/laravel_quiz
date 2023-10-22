@@ -43,6 +43,16 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
+    public function apiLogout(Request $request)
+    {
+        if (auth('api')->user()) {
+            $user = auth('api')->user();
+            $user->api_token = null;
+            $user->save();
+        }
+        return ['logout' => true];
+    }
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
