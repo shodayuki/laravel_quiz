@@ -30,3 +30,4 @@ Route::get('/quizzes', [QuizController::class, 'index']);
 Route::get('/keywords', [KeywordController::class, 'index']);
 Route::get('/ranking', [RankingController::class, 'index']);
 Route::post('/register', [RegisteredUserController::class, 'apiRegister']);
+Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'apiLogin']);
