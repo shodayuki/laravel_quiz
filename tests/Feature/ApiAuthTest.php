@@ -104,4 +104,21 @@ class ApiAuthTest extends TestCase
             'user_id' => $user->id,
         ]);
     }
+
+    public function test_auth_mypage()
+    {
+        $token = Str::random(80);
+
+        $user = User::factory()->create([
+            'api_token' => hash('sha256', $token),
+        ]);
+
+        $response = $this->json('GET', "/api/mypage?api_token={$token}");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'percentage_correct_answer',
+                'created_at'
+            ]);
+    }
 }

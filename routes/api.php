@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\InformationController;
 use App\Http\Controllers\Api\KeywordController;
 use App\Http\Controllers\Api\QuizController;
 use App\Http\Controllers\Api\RankingController;
+use App\Http\Controllers\Api\MypageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:api')->get('/mypage', [MypageController::class, 'index']);
 
 Route::get('/informations', [InformationController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
