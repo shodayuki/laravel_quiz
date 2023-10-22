@@ -33,3 +33,4 @@ Route::get('/ranking', [RankingController::class, 'index']);
 Route::post('/register', [RegisteredUserController::class, 'apiRegister']);
 Route::post('/login', [LoginController::class, 'apiLogin']);
 Route::post('/logout', [LoginController::class, 'apiLogout']);
+Route::post('/ranking', [RankingController::class, 'insertRanking']);

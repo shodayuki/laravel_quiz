@@ -12,6 +12,11 @@ class Ranking extends Model
 
     protected $table = 'rankings';
 
+    protected $fillable = [
+        'percentage_correct_answer',
+        'user_id',
+    ];
+
     public function insertScore(int $correctRatio, int $userId)
     {
         $ranking = new Ranking();

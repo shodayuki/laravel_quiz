@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class RankingController extends Controller
 {
+    private $ranking;
+
+    public function __construct(Ranking $ranking)
+    {
+        $this->ranking = $ranking;
+    }
+
     public function index()
     {
         $weekRanking = Ranking::with('user')
@@ -55,5 +62,18 @@ class RankingController extends Controller
             'monthRankingData' => $monthRankingData,
             'yearRankingData' => $yearRankingData,
         ];
+    }
+
+    public function insertRanking(Request $request)
+    {
+        if (auth('api')->user()) {
+            $correctRatio = $request->input('correctRatio');
+            $userId = auth('api')->user()->id;
+
+            $this->ranking->create([
+                'percentage_correct_answer' => (int) $correctRatio * 10,
+                'user_id' => $userId,
+            ]);
+        }
     }
 }
